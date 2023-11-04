@@ -35,6 +35,7 @@ mainApp.controller('PagerController', PagerController)
       searchName: "=",
       searchType: "=",
       findedMovies: '=',
+      numberOfItems: "=",
     }
   };
 }]);
@@ -91,7 +92,7 @@ function PagingController($scope, $http) {
     if (currentPage < 1 || currentPage > $scope.pager.totalPages)
       return;
 
-    setPager($scope.totalItems.length, currentPage, $scope.itemPerPage);
+    setPager($scope.numberOfItems, currentPage, $scope.itemPerPage);
     
    $http.get(`${baseUrl}?apikey=${myApi}&s=` + $scope.searchName + `&r=json&type=` + $scope.searchType +`&page=${currentPage}`).then( r  =>  {
         if(r.status === 200) {         
@@ -102,8 +103,6 @@ function PagingController($scope, $http) {
           }
     });  
   };
-
-
   
   $scope.setPage(1);
 }
@@ -117,11 +116,6 @@ function PagerController($scope, $http){
   $scope.findedMovies = [];
   $scope.numberOfItems = 0;
   $scope.movieDetails = '';
-  
-  for(var i=1; i <= 200; i++)
-    $scope.totalItems.push(i);
-    
-  $scope.displayItems = [];
 
   // materialize select activation
   $(document).ready(function(){
